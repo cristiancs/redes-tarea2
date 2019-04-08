@@ -176,7 +176,10 @@ public class FTPMain {
                             File curDir = new File("./files");
                             File[] filesList = curDir.listFiles();
                             for (File f : filesList) {
-                                out.println(f.getName());
+                                if (f.isFile()) {
+                                    out.println(f.getName());
+                                }
+
                             }
                             log.writeLog("command", "servidor envía respuesta a " + ip);
                         } else if (mensaje.startsWith("get")) {
@@ -184,7 +187,15 @@ public class FTPMain {
                         } else if (mensaje.startsWith("put")) {
                             out.println("Deberia subir archivo");
                         } else if (mensaje.startsWith("delete")) {
-                            out.println("Deberia eliminar archivo");
+                            String parts[] = mensaje.split(" ");
+                            File file = new File("files/" + parts[1]);
+                            if (file.delete()) {
+                                out.println("Archivo " + parts[1] + " eliminado");
+                            } else {
+                                out.println("Error al eliminar " + parts[1]);
+                            }
+                            log.writeLog("command", "servidor envía respuesta a " + ip);
+
                         } else {
                             out.println("Comando no reconocido");
                         }
