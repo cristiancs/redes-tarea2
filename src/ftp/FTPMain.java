@@ -74,7 +74,8 @@ public class FTPMain {
         public void run() {
             LogHandler log = new LogHandler();
             String ip = socket.getInetAddress().toString();
-            log.writeLog("connection", ip.replace("/", "") + " conexión entrante");
+            ip = ip.replace("/", "");
+            log.writeLog("connection", ip + " conexión entrante");
             int mensajes = 0;
             try {
                 var in = new Scanner(socket.getInputStream());
@@ -87,12 +88,19 @@ public class FTPMain {
 
                     if (!mensaje.equals("HELLO") && mensajes == 0) {
                         System.out.println("mensajes:" + mensajes);
-                        log.writeLog("error", ip.replace("/", "") + " conexión rechazada (invalid handshake)");
+                        log.writeLog("error", "conexión rechazada por" + ip);
                         out.println("Invalid Handshake message");
                         throw new IllegalArgumentException("Error en handshake");
                     } else if (mensajes > 0) {
+                        log.writeLog("command", ip + " " + mensaje);
                         if (mensaje.equals("ls")) {
-                            out.println("Deberia Listar Archivos");
+
+                            File curDir = new File("./files");
+                            File[] filesList = curDir.listFiles();
+                            for (File f : filesList) {
+                                out.println(f.getName());
+                            }
+                            log.writeLog("command", "servidor envía respuesta a " + ip);
                         } else if (mensaje.startsWith("get")) {
                             out.println("Deberia Enviar archivo");
                         } else if (mensaje.startsWith("put")) {
