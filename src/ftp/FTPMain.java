@@ -176,10 +176,7 @@ public class FTPMain {
                             File curDir = new File("./files");
                             File[] filesList = curDir.listFiles();
                             for (File f : filesList) {
-                                if (f.isFile()) {
-                                    out.println(f.getName());
-                                }
-
+                                out.println(f.getName());
                             }
                             log.writeLog("command", "servidor envía respuesta a " + ip);
                         } else if (mensaje.startsWith("get")) {
