@@ -31,21 +31,23 @@ public class FTPMain {
             try {
                 var in = new Scanner(socket.getInputStream());
                 var out = new PrintWriter(socket.getOutputStream(), true);
+                while (in.hasNextLine()) {
+                    String mensaje = in.nextLine();
+                    System.out.println("Mensaje:" + mensaje);
+                    if (mensaje.equals("ls")) {
+                        out.println("Deberia Listar Archivos");
+                    } else if (mensaje.startsWith("get")) {
+                        out.println("Deberia Enviar archivo");
+                    } else if (mensaje.startsWith("put")) {
+                        out.println("Deberia subir archivo");
+                    } else if (mensaje.startsWith("delete")) {
+                        out.println("Deberia eliminar archivo");
+                    } else {
+                        out.println("Comando no reconocido");
+                    }
 
-                String mensaje = in.nextLine();
-                System.out.println("Mensaje:" + in.nextLine());
-                if (mensaje.equals("ls")) {
-                    out.println("Deberia Listar Archivos");
-                } else if (mensaje.startsWith("get")) {
-                    out.println("Deberia Enviar archivo");
-                } else if (mensaje.startsWith("put")) {
-                    out.println("Deberia Enviar archivo");
-                } else if (mensaje.startsWith("delete")) {
-                    out.println("Deberia Enviar archivo");
-                } else {
-                    out.println("Comando no reconocido");
+                    // out.println(in.nextLine().toUpperCase());
                 }
-
             } catch (Exception e) {
                 System.out.println("Error:" + socket);
             } finally {
