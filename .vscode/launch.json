@@ -1,0 +1,16 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - FTPMain",
+            "request": "launch",
+            "mainClass": "ftpserver.FTPMain"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - ftpmain",
+            "request": "launch",
+            "mainClass": "oata.ftpmain"
+        }
+    ]
+}
