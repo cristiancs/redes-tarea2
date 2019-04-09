@@ -52,5 +52,5 @@ se pueden utilizar todos los comandos que utiliza el servidor, para salir enviar
 
 # Notas
 
-- Este código fue probado utilizando Amazon Coretto https://aws.amazon.com/es/corretto/
+- Este código fue probado utilizando Amazon Coretto 11 https://aws.amazon.com/es/corretto/
 - Los archivos se leen y escriben desde la carpeta files dentro de server y cliente según corresponda
