@@ -58,6 +58,18 @@ class FTPClient {
 
                     }
                     inText = "";
+                } else if (inConsole.startsWith("delete")) {
+                    outToServer.println(inConsole);
+                } else if (inConsole.startsWith("get")) {
+                    outToServer.println(inConsole);
+                    String parts[] = inConsole.split(" ");
+                    String filesString = inFromServer.nextLine();
+                    File file = new File("files/" + parts[1]);
+                    file.createNewFile();
+                    FileWriter fr = new FileWriter(file, true);
+                    fr.write(DecodeBase64ToString(filesString));
+                    fr.close();
+
                 } else {
                     // outToServer.println(inConsole);
                     System.out.println(inText);
