@@ -1,31 +1,51 @@
-Este código fue probado utilizando Amazon Coretto
+# Compilación del servidor
 
-https://aws.amazon.com/es/corretto/
+    cd server
+    ant
 
-Compilación
-ant
+# Ejecución del servidor
 
-Ejecución
-java -jar build/jar/ftp-server.jar
+Desde la carpeta server
 
-Explicación del servidor
+    java -jar build/jar/ftp-server.jar
 
-Se recomienda utilizar telnet para probar la tarea, el puerto de escucha es el 59898
+# Explicación del servidor
 
-Handshake
+El servidor escucha en el puerto 59898, se puede utilizar telnet o el cliente que se explica abajo para probarlo, los logs se guardan en server/log.txt
+
+### Handshake
 
 El servidor enviara un mensaje con "HELLO" cuando un cliente se conecta, el servidor espera de vuelta un "HELLO"
 
-ls
+### ls
 
 Se debe enviar el comando ls y se retorna la lista de directorios y archivos en la carpeta files del servidor, termina con la palabra END
 
-delete file.txt
+### delete file.txt
 
 Se debe enviar el comando, se intentara eliminar el archivo del servidor y se comunica el resultado de la operación
 
-get file.txt
+### get file.txt
+
 En caso de existir, el servidor enviara el contenido del archivo codificado en base64 seguido de un END, en caso contrario, la respuesta es NOFILE
 
-put file.txt
+### put file.txt
+
 Luego de esta linea el servidor espera que la siguiente linea sea el contenido del archivo codificado en base64.
+
+# Compilación del Cliente
+
+    cd client
+    ant
+
+#Ejecución del Cliente
+Desde la carpeta client
+
+    java -jar build/jar/ftpclient.jar
+
+se pueden utilizar todos los comandos que utiliza el servidor
+
+# Notas
+
+- Este código fue probado utilizando Amazon Coretto https://aws.amazon.com/es/corretto/
+- Los archivos se leen y escriben desde la carpeta files dentro de server y cliente según corresponda
