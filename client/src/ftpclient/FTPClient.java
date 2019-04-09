@@ -43,21 +43,25 @@ class FTPClient {
             outToServer.println("HELLO");
 
             while (true) {
+                System.out.println("Waiting for commands");
                 String inConsole = System.console().readLine();
                 if (inConsole.length() == 0) {
                     break;
                 }
                 if (inConsole.equals("ls")) {
+
                     outToServer.println(inConsole);
+
+                    inText = "";
 
                     while (!inText.equals("END")) {
                         inText = inFromServer.nextLine();
+
                         if (!inText.equals("END")) {
                             System.out.println(inText);
                         }
 
                     }
-                    inText = "";
                 } else if (inConsole.startsWith("delete")) {
                     outToServer.println(inConsole);
                     inText = inFromServer.nextLine();
@@ -74,6 +78,7 @@ class FTPClient {
                         fr.write(DecodeBase64ToString(inText));
                         fr.close();
                         inText = inFromServer.nextLine();
+                        System.out.println("OK");
                     }
 
                 } else if (inConsole.startsWith("put")) {
@@ -90,11 +95,10 @@ class FTPClient {
                     } else {
                         System.out.println("Archivo no existe");
                     }
-                    inText = inFromServer.nextLine();
 
                 } else {
                     // outToServer.println(inConsole);
-                    System.out.println(inText);
+                    System.out.println("Comando no reconocido");
                 }
 
             }

@@ -7,7 +7,7 @@
 
 Desde la carpeta server
 
-    java -jar build/jar/ftp-server.jar
+    java -jar build/jar/ftpserver.jar
 
 # Explicación del servidor
 
@@ -43,7 +43,7 @@ Desde la carpeta client
 
     java -jar build/jar/ftpclient.jar
 
-se pueden utilizar todos los comandos que utiliza el servidor
+se pueden utilizar todos los comandos que utiliza el servidor, para salir enviar una linea vacia
 
 # Notas
 

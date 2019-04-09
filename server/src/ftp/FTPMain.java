@@ -15,7 +15,7 @@ public class FTPMain {
 
     public void start() throws Exception {
         try (var listener = new ServerSocket(59898)) {
-            System.out.println("Starting FTP Server ...");
+            System.out.println("Server Started ...");
             LogHandler log = new LogHandler();
             log.StartLog();
 
@@ -79,6 +79,7 @@ public class FTPMain {
                         fr.close();
                         out.println("OK");
                         log.writeLog("command", "servidor envía respuesta a " + ip);
+                        waitForFile = false;
                     } else if (!mensaje.equals("HELLO") && mensajes == 0) {
                         System.out.println("mensajes:" + mensajes);
                         log.writeLog("error", "conexión rechazada por" + ip);
