@@ -93,6 +93,7 @@ public class FTPMain {
                             for (File f : filesList) {
                                 out.println(f.getName());
                             }
+                            out.println("END");
                             log.writeLog("command", "servidor envía respuesta a " + ip);
                         } else if (mensaje.startsWith("get")) {
                             String parts[] = mensaje.split(" ");

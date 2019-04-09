@@ -18,7 +18,7 @@ El servidor enviara un mensaje con "HELLO" cuando un cliente se conecta, el serv
 
 ls
 
-Se debe enviar el comando ls y se retorna la lista de directorios y archivos en la carpeta files del servidor
+Se debe enviar el comando ls y se retorna la lista de directorios y archivos en la carpeta files del servidor, termina con la palabra END
 
 delete file.txt
 
