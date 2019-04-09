@@ -90,7 +90,7 @@ public class FTPMain {
                                 out.println(f.getName());
                             }
                             out.println("END");
-                            log.writeLog("command", "servidor envía respuesta a " + ip);
+                            log.writeLog("response", "servidor envía respuesta a " + ip);
                         } else if (mensaje.startsWith("get")) {
                             String parts[] = mensaje.split(" ");
 
@@ -102,7 +102,7 @@ public class FTPMain {
                             } else {
                                 out.println("NOFILE");
                             }
-                            log.writeLog("command", "servidor envía respuesta a " + ip);
+                            log.writeLog("response", "servidor envía respuesta a " + ip);
                         } else if (mensaje.startsWith("put")) {
                             String parts[] = mensaje.split(" ");
                             waitForFile = true;
@@ -116,7 +116,7 @@ public class FTPMain {
                             } else {
                                 out.println("Error al eliminar " + parts[1]);
                             }
-                            log.writeLog("command", "servidor envía respuesta a " + ip);
+                            log.writeLog("response", "servidor envía respuesta a " + ip);
 
                         } else {
                             out.println("Comando no reconocido");
