@@ -1,3 +1,8 @@
+# Integrantes
+
+- Cristian Navarrete 201573549-2
+- Benjamin Seider 201573541-7
+
 # Compilación del servidor
 
     cd server

@@ -11,7 +11,6 @@ import java.util.Scanner;
 
 class FTPClient {
     private String encodeFileToBase64Binary(String fileName) throws IOException {
-        File file = new File(fileName);
         byte[] encoded = Base64.getEncoder().encode(Files.readAllBytes(Paths.get(fileName)));
         return new String(encoded);
     }
@@ -28,15 +27,11 @@ class FTPClient {
     }
 
     public void start() {
-        String sentence;
-        String modifiedSentence;
-        ;
 
         try {
             Socket clientSocket = new Socket("127.0.0.1", 59898);
             PrintWriter outToServer = new PrintWriter(clientSocket.getOutputStream(), true);
             Scanner inFromServer = new Scanner(clientSocket.getInputStream());
-            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
             Scanner userInput = new Scanner(System.in);
             String inText = inFromServer.nextLine();
@@ -102,9 +97,12 @@ class FTPClient {
                 }
 
             }
+            inFromServer.close();
+            userInput.close();
             clientSocket.close();
 
         } catch (Exception e) {
+
             System.out.println(e);
         }
 
