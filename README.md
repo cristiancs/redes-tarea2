@@ -8,7 +8,7 @@ ant
 Ejecución
 java -jar build/jar/ftp-server.jar
 
-Pruebas
+Explicación del servidor
 
 Se recomienda utilizar telnet para probar la tarea, el puerto de escucha es el 59898
 
@@ -25,9 +25,7 @@ delete file.txt
 Se debe enviar el comando, se intentara eliminar el archivo del servidor y se comunica el resultado de la operación
 
 get file.txt
-
-En caso de existir, el servidor enviara el contenido del archivo codificado en base64, en caso contrario, la respuesta es NOFILE
+En caso de existir, el servidor enviara el contenido del archivo codificado en base64 seguido de un END, en caso contrario, la respuesta es NOFILE
 
 put file.txt
-
 Luego de esta linea el servidor espera que la siguiente linea sea el contenido del archivo codificado en base64.

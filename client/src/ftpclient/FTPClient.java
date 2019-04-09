@@ -60,15 +60,37 @@ class FTPClient {
                     inText = "";
                 } else if (inConsole.startsWith("delete")) {
                     outToServer.println(inConsole);
+                    inText = inFromServer.nextLine();
                 } else if (inConsole.startsWith("get")) {
                     outToServer.println(inConsole);
+                    inText = inFromServer.nextLine();
+                    if (inText.equals("NOFILE")) {
+                        System.out.println("El archivo no existe en el servidor remoto");
+                    } else {
+                        String parts[] = inConsole.split(" ");
+                        File file = new File("files/" + parts[1]);
+                        file.createNewFile();
+                        FileWriter fr = new FileWriter(file, true);
+                        fr.write(DecodeBase64ToString(inText));
+                        fr.close();
+                        inText = inFromServer.nextLine();
+                    }
+
+                } else if (inConsole.startsWith("put")) {
+
                     String parts[] = inConsole.split(" ");
-                    String filesString = inFromServer.nextLine();
-                    File file = new File("files/" + parts[1]);
-                    file.createNewFile();
-                    FileWriter fr = new FileWriter(file, true);
-                    fr.write(DecodeBase64ToString(filesString));
-                    fr.close();
+                    File tempFile = new File("files/" + parts[1]);
+
+                    boolean exists = tempFile.exists();
+                    if (exists) {
+                        outToServer.println(inConsole);
+                        outToServer.println(encodeFileToBase64Binary("files/" + parts[1]));
+                        inText = inFromServer.nextLine();
+                        System.out.println(inText);
+                    } else {
+                        System.out.println("Archivo no existe");
+                    }
+                    inText = inFromServer.nextLine();
 
                 } else {
                     // outToServer.println(inConsole);

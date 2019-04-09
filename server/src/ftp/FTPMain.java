@@ -102,6 +102,7 @@ public class FTPMain {
                             boolean exists = tempFile.exists();
                             if (exists) {
                                 out.println(encodeFileToBase64Binary("files/" + parts[1]));
+                                out.println("END");
                             } else {
                                 out.println("NOFILE");
                             }
