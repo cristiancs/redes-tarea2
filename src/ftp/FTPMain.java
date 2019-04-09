@@ -3,6 +3,13 @@ package ftpserver;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Base64;
+import java.nio.file.Paths;
+import java.nio.file.Files;
+import java.io.FileWriter;
 
 public class FTPMain {
 
@@ -34,6 +41,17 @@ public class FTPMain {
             this.socket = socket;
         }
 
+        private String encodeFileToBase64Binary(String fileName) throws IOException {
+            File file = new File(fileName);
+            byte[] encoded = Base64.getEncoder().encode(Files.readAllBytes(Paths.get(fileName)));
+            return new String(encoded);
+        }
+
+        private String DecodeBase64ToString(String Text) {
+            byte[] decoded = Base64.getDecoder().decode(Text);
+            return new String(decoded);
+        }
+
         @Override
         public void run() {
             LogHandler log = new LogHandler();
@@ -41,6 +59,8 @@ public class FTPMain {
             ip = ip.replace("/", "");
             log.writeLog("connection", ip + " conexión entrante");
             int mensajes = 0;
+            Boolean waitForFile = false;
+            String fileName = "";
             try {
                 var in = new Scanner(socket.getInputStream());
                 var out = new PrintWriter(socket.getOutputStream(), true);
@@ -50,10 +70,19 @@ public class FTPMain {
                     String mensaje = in.nextLine();
                     System.out.println("Mensaje:" + mensaje);
 
-                    if (!mensaje.equals("HELLO") && mensajes == 0) {
+                    if (waitForFile) {
+                        File file = new File("files/" + fileName);
+                        file.createNewFile();
+                        FileWriter fr = new FileWriter(file, true);
+
+                        fr.write(DecodeBase64ToString(mensaje));
+                        fr.close();
+                        out.println("OK");
+                        log.writeLog("command", "servidor envía respuesta a " + ip);
+                    } else if (!mensaje.equals("HELLO") && mensajes == 0) {
                         System.out.println("mensajes:" + mensajes);
                         log.writeLog("error", "conexión rechazada por" + ip);
-                        out.println("Invalid Handshake message");
+                        out.println("HANDSHAKEERROR");
                         throw new IllegalArgumentException("Error en handshake");
                     } else if (mensajes > 0) {
                         log.writeLog("command", ip + " " + mensaje);
@@ -66,9 +95,21 @@ public class FTPMain {
                             }
                             log.writeLog("command", "servidor envía respuesta a " + ip);
                         } else if (mensaje.startsWith("get")) {
-                            out.println("Deberia Enviar archivo");
+                            String parts[] = mensaje.split(" ");
+
+                            File tempFile = new File("files/" + parts[1]);
+                            boolean exists = tempFile.exists();
+                            if (exists) {
+                                out.println(encodeFileToBase64Binary("files/" + parts[1]));
+                            } else {
+                                out.println("NOFILE");
+                            }
+                            log.writeLog("command", "servidor envía respuesta a " + ip);
                         } else if (mensaje.startsWith("put")) {
-                            out.println("Deberia subir archivo");
+                            String parts[] = mensaje.split(" ");
+                            waitForFile = true;
+                            fileName = parts[1];
+
                         } else if (mensaje.startsWith("delete")) {
                             String parts[] = mensaje.split(" ");
                             File file = new File("files/" + parts[1]);
