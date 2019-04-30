@@ -37,6 +37,10 @@ public class FTPMain {
     private class RequestHandler implements Runnable {
         private Socket socket;
 
+        RequestHandler(Socket socket) {
+            this.socket = socket;
+        }
+
         private String encodeFileToBase64Binary(String fileName) throws IOException {
             byte[] encoded = Base64.getEncoder().encode(Files.readAllBytes(Paths.get(fileName)));
             return new String(encoded);
