@@ -66,11 +66,7 @@ public class App {
                 while (in.hasNextLine()) {
                     String mensaje = in.nextLine();
                     if (waitForFile) {
-                        File file = new File("files/" + fileName);
-                        file.createNewFile();
-                        OutputStream fr = new FileOutputStream(file);
-                        fr.write(DecodeBase64ToString(mensaje));
-                        fr.close();
+
                         out.println("OK");
                         log.writeLog("command", "servidor envía respuesta a " + ip);
                         waitForFile = false;
@@ -83,41 +79,23 @@ public class App {
                         log.writeLog("command", ip + " " + mensaje);
                         if (mensaje.equals("ls")) {
 
-                            File curDir = new File("./files");
-                            File[] filesList = curDir.listFiles();
-                            for (File f : filesList) {
-                                out.println(f.getName());
-                            }
                             out.println("END");
                             log.writeLog("response", "servidor envía respuesta a " + ip);
                         } else if (mensaje.startsWith("get")) {
-                            String parts[] = mensaje.split(" ");
 
-                            File tempFile = new File("files/" + parts[1]);
-                            boolean exists = tempFile.exists();
-                            if (exists) {
-                                out.println(encodeFileToBase64Binary("files/" + parts[1]));
-                                out.println("END");
-                            } else {
-                                out.println("NOFILE");
-                            }
                             log.writeLog("response", "servidor envía respuesta a " + ip);
                         } else if (mensaje.startsWith("put")) {
+
                             String parts[] = mensaje.split(" ");
                             waitForFile = true;
                             fileName = parts[1];
 
                         } else if (mensaje.startsWith("delete")) {
-                            String parts[] = mensaje.split(" ");
-                            File file = new File("files/" + parts[1]);
-                            if (file.delete()) {
-                                out.println("Archivo " + parts[1] + " eliminado");
-                            } else {
-                                out.println("Error al eliminar " + parts[1]);
-                            }
+
                             log.writeLog("response", "servidor envía respuesta a " + ip);
 
                         } else {
+
                             out.println("Comando no reconocido");
                         }
                     }

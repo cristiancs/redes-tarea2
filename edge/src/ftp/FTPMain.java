@@ -8,11 +8,12 @@ import java.util.Base64;
 import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.util.Arrays;
+import java.lang.Integer;
 
 public class FTPMain {
 
-    public void start() throws Exception {
-        try (var listener = new ServerSocket(59898)) {
+    public void start(String[] args) throws Exception {
+        try (var listener = new ServerSocket(Integer.parseInt(args[0]))) {
             System.out.println("Server Started ...");
             LogHandler log = new LogHandler();
             log.StartLog();
@@ -28,7 +29,7 @@ public class FTPMain {
     public static void main(String[] args) throws Exception {
 
         FTPMain programm = new FTPMain();
-        programm.start();
+        programm.start(args);
 
     }
 
