@@ -3,13 +3,11 @@ package ftpserver;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.Base64;
 import java.nio.file.Paths;
 import java.nio.file.Files;
-import java.io.FileWriter;
+import java.util.Arrays;
 
 public class FTPMain {
 
@@ -46,9 +44,9 @@ public class FTPMain {
             return new String(encoded);
         }
 
-        private String DecodeBase64ToString(String Text) {
+        private byte[] DecodeBase64ToString(String Text) {
             byte[] decoded = Base64.getDecoder().decode(Text);
-            return new String(decoded);
+            return decoded;
         }
 
         @Override
@@ -67,13 +65,10 @@ public class FTPMain {
                 out.println("HELLO");
                 while (in.hasNextLine()) {
                     String mensaje = in.nextLine();
-                    System.out.println("Mensaje:" + mensaje);
-
                     if (waitForFile) {
                         File file = new File("files/" + fileName);
                         file.createNewFile();
-                        FileWriter fr = new FileWriter(file, true);
-
+                        OutputStream fr = new FileOutputStream(file);
                         fr.write(DecodeBase64ToString(mensaje));
                         fr.close();
                         out.println("OK");

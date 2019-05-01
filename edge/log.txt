@@ -1,14 +1,13 @@
 DATETIME  EVENT   DESCRIPTION
-09-04-2019 19:45:16  connection   127.0.0.1 conexión entrante
-09-04-2019 19:45:24  connection   127.0.0.1 conexión entrante
-09-04-2019 19:45:30  connection   127.0.0.1 conexión entrante
-09-04-2019 19:45:38  command   127.0.0.1 ls
-09-04-2019 19:45:38  command   servidor envía respuesta a 127.0.0.1
-09-04-2019 19:45:39  command   127.0.0.1 ls
-09-04-2019 19:45:39  command   servidor envía respuesta a 127.0.0.1
-09-04-2019 19:45:47  command   127.0.0.1 ls
-09-04-2019 19:45:47  command   servidor envía respuesta a 127.0.0.1
-09-04-2019 19:45:55  command   127.0.0.1 ls
-09-04-2019 19:45:55  command   servidor envía respuesta a 127.0.0.1
-09-04-2019 19:45:55  command   127.0.0.1 ls
-09-04-2019 19:45:55  command   servidor envía respuesta a 127.0.0.1
+01-05-2019 16:00:12  connection   127.0.0.1 conexión entrante
+01-05-2019 16:00:15  command   127.0.0.1 put bn.tif
+01-05-2019 16:00:16  command   servidor envía respuesta a 127.0.0.1
+01-05-2019 16:00:34  command   127.0.0.1 ls
+01-05-2019 16:00:34  response   servidor envía respuesta a 127.0.0.1
+01-05-2019 16:00:37  command   127.0.0.1 get bn2.tif
+01-05-2019 16:00:37  response   servidor envía respuesta a 127.0.0.1
+01-05-2019 16:03:49  connection   127.0.0.1 conexión entrante
+01-05-2019 16:03:52  command   127.0.0.1 get bn2.tif
+01-05-2019 16:03:52  response   servidor envía respuesta a 127.0.0.1
+01-05-2019 16:04:09  command   127.0.0.1 put PSD.zip
+01-05-2019 16:04:24  command   servidor envía respuesta a 127.0.0.1
