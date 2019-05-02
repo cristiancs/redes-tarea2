@@ -1,6 +1,8 @@
 /Users/mhcristian/proyectos/redes-tarea2/proxy/src/main/java/proxy/BlockingQueue.java
 /Users/mhcristian/proyectos/redes-tarea2/proxy/src/main/java/proxy/App.java
+/Users/mhcristian/proyectos/redes-tarea2/proxy/src/main/java/proxy/DBHandler.java
 /Users/mhcristian/proyectos/redes-tarea2/proxy/src/main/java/proxy/ThreadPool.java
 /Users/mhcristian/proyectos/redes-tarea2/proxy/src/main/java/proxy/TaskExecutor.java
+/Users/mhcristian/proyectos/redes-tarea2/proxy/src/main/java/proxy/EdgeHandler.java
 /Users/mhcristian/proyectos/redes-tarea2/proxy/src/main/java/proxy/LogHandler.java
 /Users/mhcristian/proyectos/redes-tarea2/proxy/src/main/java/proxy/FTPMain.java

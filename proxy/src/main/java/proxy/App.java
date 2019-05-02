@@ -5,8 +5,10 @@ import java.net.Socket;
 import java.util.Scanner;
 import java.io.*;
 import java.util.Base64;
+import java.util.HashMap;
 import java.nio.file.Paths;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class App {
@@ -51,6 +53,9 @@ public class App {
 
         @Override
         public void run() {
+
+            DBHandler dbhandler = new DBHandler();
+
             LogHandler log = new LogHandler();
             String ip = socket.getInetAddress().toString();
             ip = ip.replace("/", "");
@@ -65,6 +70,8 @@ public class App {
                 out.println("HELLO");
                 while (in.hasNextLine()) {
                     String mensaje = in.nextLine();
+
+                    // Manejar los datos recibidos despues del put
                     if (waitForFile) {
 
                         out.println("OK");
@@ -77,13 +84,62 @@ public class App {
                         throw new IllegalArgumentException("Error en handshake");
                     } else if (mensajes > 0) {
                         log.writeLog("command", ip + " " + mensaje);
+
+                        // Es un ls
                         if (mensaje.equals("ls")) {
+
+                            // Obtener todos los archivos
+                            HashMap<String, ArrayList> files = dbhandler.getFiles();
+                            HashMap<String, EdgeHandler> servers = new HashMap<String, EdgeHandler>();
+
+                            ArrayList<String> existentes = new ArrayList<String>();
+                            Boolean flag;
+
+                            // Preguntar a cada servidor si tiene las partes que necesitamos para cada
+                            for (String file : files.keySet()) {
+                                String nombre = file;
+                                ArrayList<String> chunks = files.get(file);
+
+                                flag = true;
+
+                                for (String chunk : chunks) {
+                                    String[] data = chunk.split("\\|");
+                                    String server = data[1];
+                                    String chunkname = data[0];
+                                    System.out.println(server);
+                                    if (!servers.containsKey(server)) {
+                                        servers.put(server, new EdgeHandler(server));
+
+                                    }
+                                    if (!servers.get(server).fileExists(chunkname)) {
+                                        flag = false;
+                                    }
+                                }
+                                if (flag) {
+                                    existentes.add(nombre);
+                                }
+
+                            }
+
+                            for (String server : servers.keySet()) {
+                                servers.get(server).disconnect();
+                            }
+
+                            for (String file : existentes) {
+                                out.println(file);
+                            }
+
+                            // archivo
+
+                            //
 
                             out.println("END");
                             log.writeLog("response", "servidor envía respuesta a " + ip);
                         } else if (mensaje.startsWith("get")) {
 
                             log.writeLog("response", "servidor envía respuesta a " + ip);
+
+                            // Primera linea del put, lo preparamos para escribir
                         } else if (mensaje.startsWith("put")) {
 
                             String parts[] = mensaje.split(" ");

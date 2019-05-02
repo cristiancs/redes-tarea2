@@ -1,1 +1,43 @@
 DATETIME  EVENT   DESCRIPTION
+01-05-2019 20:53:09  connection   127.0.0.1 conexión entrante
+01-05-2019 20:53:09  command   127.0.0.1 ls
+01-05-2019 20:53:09  response   servidor envía respuesta a 127.0.0.1
+01-05-2019 20:53:09  command   127.0.0.1 ls
+01-05-2019 20:53:09  response   servidor envía respuesta a 127.0.0.1
+01-05-2019 20:53:09  command   127.0.0.1 ls
+01-05-2019 20:53:09  response   servidor envía respuesta a 127.0.0.1
+01-05-2019 20:55:21  connection   127.0.0.1 conexión entrante
+01-05-2019 20:55:21  command   127.0.0.1 ls
+01-05-2019 20:55:21  response   servidor envía respuesta a 127.0.0.1
+01-05-2019 20:55:21  command   127.0.0.1 ls
+01-05-2019 20:55:21  response   servidor envía respuesta a 127.0.0.1
+01-05-2019 20:55:21  command   127.0.0.1 ls
+01-05-2019 20:55:21  response   servidor envía respuesta a 127.0.0.1
+01-05-2019 20:55:45  connection   127.0.0.1 conexión entrante
+01-05-2019 20:55:45  command   127.0.0.1 ls
+01-05-2019 20:55:45  response   servidor envía respuesta a 127.0.0.1
+01-05-2019 20:55:45  command   127.0.0.1 ls
+01-05-2019 20:55:45  response   servidor envía respuesta a 127.0.0.1
+01-05-2019 20:55:45  command   127.0.0.1 ls
+01-05-2019 20:55:45  response   servidor envía respuesta a 127.0.0.1
+01-05-2019 20:56:47  connection   127.0.0.1 conexión entrante
+01-05-2019 20:56:47  command   127.0.0.1 ls
+01-05-2019 20:56:47  response   servidor envía respuesta a 127.0.0.1
+01-05-2019 20:56:47  command   127.0.0.1 ls
+01-05-2019 20:56:47  response   servidor envía respuesta a 127.0.0.1
+01-05-2019 20:56:47  command   127.0.0.1 ls
+01-05-2019 20:56:47  response   servidor envía respuesta a 127.0.0.1
+01-05-2019 20:57:37  connection   127.0.0.1 conexión entrante
+01-05-2019 20:57:37  command   127.0.0.1 ls
+01-05-2019 20:57:37  response   servidor envía respuesta a 127.0.0.1
+01-05-2019 20:57:37  command   127.0.0.1 ls
+01-05-2019 20:57:37  response   servidor envía respuesta a 127.0.0.1
+01-05-2019 20:57:37  command   127.0.0.1 ls
+01-05-2019 20:57:37  response   servidor envía respuesta a 127.0.0.1
+01-05-2019 20:57:49  connection   127.0.0.1 conexión entrante
+01-05-2019 20:57:49  command   127.0.0.1 ls
+01-05-2019 20:57:49  response   servidor envía respuesta a 127.0.0.1
+01-05-2019 20:57:49  command   127.0.0.1 ls
+01-05-2019 20:57:49  response   servidor envía respuesta a 127.0.0.1
+01-05-2019 20:57:49  command   127.0.0.1 ls
+01-05-2019 20:57:49  response   servidor envía respuesta a 127.0.0.1

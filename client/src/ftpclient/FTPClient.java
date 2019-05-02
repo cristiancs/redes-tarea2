@@ -29,7 +29,7 @@ class FTPClient {
     public void start() {
 
         try {
-            Socket clientSocket = new Socket("127.0.0.1", 59100);
+            Socket clientSocket = new Socket("127.0.0.1", 59800);
             PrintWriter outToServer = new PrintWriter(clientSocket.getOutputStream(), true);
             Scanner inFromServer = new Scanner(clientSocket.getInputStream());
 
