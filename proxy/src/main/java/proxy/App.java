@@ -36,9 +36,11 @@ public class App {
 
     private class RequestHandler implements Runnable {
         private Socket socket;
+        private DBHandler dbhandler;
 
         RequestHandler(Socket socket) {
             this.socket = socket;
+            this.dbhandler = new DBHandler();
         }
 
         private String encodeFileToBase64Binary(String fileName) throws IOException {
@@ -51,10 +53,35 @@ public class App {
             return decoded;
         }
 
+        private Boolean FileAvailable(String nombre) {
+            HashMap<String, EdgeHandler> servers = new HashMap<String, EdgeHandler>();
+
+            Boolean flag;
+
+            ArrayList<String> chunks = this.dbhandler.getChunks(nombre);
+
+            flag = true;
+
+            for (String chunk : chunks) {
+                String[] data = chunk.split("\\|");
+                String server = data[1];
+                String chunkname = data[0];
+                if (!servers.containsKey(server)) {
+                    servers.put(server, new EdgeHandler(server));
+                }
+                if (!servers.get(server).fileExists(chunkname)) {
+                    flag = false;
+                }
+            }
+
+            for (String server : servers.keySet()) {
+                servers.get(server).disconnect();
+            }
+            return flag;
+        }
+
         @Override
         public void run() {
-
-            DBHandler dbhandler = new DBHandler();
 
             LogHandler log = new LogHandler();
             String ip = socket.getInetAddress().toString();
@@ -89,7 +116,7 @@ public class App {
                         if (mensaje.equals("ls")) {
 
                             // Obtener todos los archivos
-                            HashMap<String, ArrayList> files = dbhandler.getFiles();
+                            HashMap<String, ArrayList> files = this.dbhandler.getFiles();
                             HashMap<String, EdgeHandler> servers = new HashMap<String, EdgeHandler>();
 
                             ArrayList<String> existentes = new ArrayList<String>();

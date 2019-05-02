@@ -79,4 +79,30 @@ public class DBHandler {
         }
     }
 
+    public ArrayList getChunks(String name) {
+        try {
+            String content = new String(Files.readAllBytes(Paths.get("db.json")));
+            // Convert JSON string to JSONObject
+            JSONObject data = new JSONObject(content);
+
+            JSONObject files_object = (JSONObject) data.get("files");
+
+            JSONArray partes_array = files_object.getJSONArray(name);
+
+            ArrayList<String> partes_salida = new <String>ArrayList();
+
+            for (int i = 0; i < partes_array.length(); i++) {
+                String parte = (String) partes_array.get(i);
+                partes_salida.add(parte);
+            }
+
+            return partes_salida;
+
+        } catch (Exception e) {
+            System.out.println(e);
+            ArrayList respuesta = new ArrayList();
+            return respuesta;
+        }
+    }
+
 }

@@ -68,7 +68,6 @@ public class EdgeHandler {
 
             if (!inText.equals("END")) {
                 if (inText.equals(file)) {
-                    System.out.println(file + " " + inText);
                     flag = true;
                 }
             }
