@@ -1,4 +1,0 @@
-DATETIME  EVENT   DESCRIPTION
-05-05-2019 18:05:26  connection   127.0.0.1 conexión entrante
-05-05-2019 18:05:31  command   127.0.0.1 delete bn.tif
-05-05-2019 18:05:31  response   servidor envía respuesta a 127.0.0.1

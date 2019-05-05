@@ -7,7 +7,6 @@ import java.io.*;
 import java.util.Base64;
 import java.nio.file.Paths;
 import java.nio.file.Files;
-import java.util.Arrays;
 
 public class FTPMain {
 
@@ -125,10 +124,12 @@ public class FTPMain {
                     mensajes += 1;
                     // out.println(in.nextLine().toUpperCase());
                 }
+                in.close();
             } catch (Exception e) {
                 System.out.println("Error:" + socket);
             } finally {
                 try {
+
                     socket.close();
                 } catch (IOException e) {
                 }

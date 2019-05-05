@@ -47,9 +47,9 @@ public class DBHandler {
         }
     }
 
-    public HashMap<String, ArrayList> getFiles() {
+    public HashMap<String, ArrayList<String>> getFiles() {
         try {
-            HashMap<String, ArrayList> respuesta = new HashMap<String, ArrayList>();
+            HashMap<String, ArrayList<String>> respuesta = new HashMap<String, ArrayList<String>>();
 
             String content = new String(Files.readAllBytes(Paths.get("db.json")));
             // Convert JSON string to JSONObject
@@ -61,7 +61,7 @@ public class DBHandler {
 
                 JSONArray partes_array = files_object.getJSONArray(keyStr);
 
-                ArrayList<String> partes_salida = new <String>ArrayList();
+                ArrayList<String> partes_salida = new ArrayList<String>();
 
                 for (int i = 0; i < partes_array.length(); i++) {
                     String parte = (String) partes_array.get(i);
@@ -75,12 +75,12 @@ public class DBHandler {
 
         } catch (Exception e) {
             System.out.println(e);
-            HashMap<String, ArrayList> respuesta = new HashMap<String, ArrayList>();
+            HashMap<String, ArrayList<String>> respuesta = new HashMap<String, ArrayList<String>>();
             return respuesta;
         }
     }
 
-    public ArrayList getChunks(String name) {
+    public ArrayList<String> getChunks(String name) {
         try {
             String content = new String(Files.readAllBytes(Paths.get("db.json")));
             // Convert JSON string to JSONObject
@@ -90,7 +90,7 @@ public class DBHandler {
 
             JSONArray partes_array = files_object.getJSONArray(name);
 
-            ArrayList<String> partes_salida = new <String>ArrayList();
+            ArrayList<String> partes_salida = new ArrayList<String>();
 
             for (int i = 0; i < partes_array.length(); i++) {
                 String parte = (String) partes_array.get(i);
@@ -100,8 +100,7 @@ public class DBHandler {
             return partes_salida;
 
         } catch (Exception e) {
-            System.out.println(e);
-            ArrayList respuesta = new ArrayList();
+            ArrayList<String> respuesta = new ArrayList<String>();
             return respuesta;
         }
     }

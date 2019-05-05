@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class App {
 
@@ -91,8 +90,8 @@ public class App {
             Boolean waitForFile = false;
             String fileName = "";
             try {
-                var in = new Scanner(socket.getInputStream());
-                var out = new PrintWriter(socket.getOutputStream(), true);
+                Scanner in = new Scanner(socket.getInputStream());
+                PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
                 out.println("HELLO");
                 while (in.hasNextLine()) {
@@ -116,7 +115,7 @@ public class App {
                         if (mensaje.equals("ls")) {
 
                             // Obtener todos los archivos
-                            HashMap<String, ArrayList> files = this.dbhandler.getFiles();
+                            HashMap<String, ArrayList<String>> files = this.dbhandler.getFiles();
                             HashMap<String, EdgeHandler> servers = new HashMap<String, EdgeHandler>();
 
                             ArrayList<String> existentes = new ArrayList<String>();
@@ -198,12 +197,13 @@ public class App {
                                 }
 
                                 // Borrar de la DB
+                                this.dbhandler.deleteFile(file);
 
                                 out.println("DONE");
                             } else {
                                 out.println("FILE_NOT_FOUND");
                             }
-                            this.dbhandler.deleteFile(file);
+
                             log.writeLog("response", "servidor envía respuesta a " + ip);
 
                         } else {
@@ -215,10 +215,12 @@ public class App {
                     mensajes += 1;
                     // out.println(in.nextLine().toUpperCase());
                 }
+                in.close();
             } catch (Exception e) {
                 System.out.println("Error:" + socket);
             } finally {
                 try {
+
                     socket.close();
                 } catch (IOException e) {
                 }

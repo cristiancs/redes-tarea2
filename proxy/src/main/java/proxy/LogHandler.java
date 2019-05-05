@@ -5,7 +5,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.io.FileWriter;
 import java.io.File;
-import java.io.PrintWriter;
 import java.io.IOException;
 
 public class LogHandler {

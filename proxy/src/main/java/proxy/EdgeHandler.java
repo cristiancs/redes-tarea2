@@ -1,16 +1,11 @@
 package proxy;
 
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
 
 import proxy.DBHandler;
 
 import java.io.*;
-import java.util.Base64;
-import java.nio.file.Paths;
-import java.nio.file.Files;
-import java.util.Arrays;
 import java.lang.Integer;
 
 public class EdgeHandler {
@@ -78,15 +73,12 @@ public class EdgeHandler {
 
     public Boolean deleteChunk(String file) {
 
-        String inText;
         Boolean flag = true;
-        inText = "";
-
         if (this.status == "SERVER_DOWN") {
             return false;
         }
         this.outToServer.println("delete " + file);
-        inText = inFromServer.nextLine();
+        inFromServer.nextLine();
         return flag;
     }
 }
