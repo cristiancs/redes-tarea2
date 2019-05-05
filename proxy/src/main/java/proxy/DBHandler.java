@@ -1,11 +1,12 @@
 package proxy;
 
 import java.nio.file.Paths;
+import java.io.FileWriter;
 import java.nio.file.Files;
 
 import org.json.JSONObject;
 import org.json.JSONArray;
-import java.util.List;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -102,6 +103,27 @@ public class DBHandler {
             System.out.println(e);
             ArrayList respuesta = new ArrayList();
             return respuesta;
+        }
+    }
+
+    public Boolean deleteFile(String name) {
+        try {
+            String content = new String(Files.readAllBytes(Paths.get("db.json")));
+            // Convert JSON string to JSONObject
+
+            JSONObject data = new JSONObject(content);
+
+            JSONObject files_object = (JSONObject) data.get("files");
+            files_object.remove(name);
+
+            FileWriter file = new FileWriter("db.json");
+            file.write(data.toString());
+            file.close();
+            return true;
+
+        } catch (Exception e) {
+            System.out.println(e);
+            return false;
         }
     }
 

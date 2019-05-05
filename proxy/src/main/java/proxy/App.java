@@ -175,6 +175,35 @@ public class App {
 
                         } else if (mensaje.startsWith("delete")) {
 
+                            String parts[] = mensaje.split(" ");
+                            String file = parts[1];
+                            HashMap<String, EdgeHandler> servers = new HashMap<String, EdgeHandler>();
+                            if (FileAvailable(file)) {
+
+                                // Borrar de los edge
+                                ArrayList<String> chunks = this.dbhandler.getChunks(file);
+
+                                for (String chunk : chunks) {
+                                    String[] data = chunk.split("\\|");
+                                    String server = data[1];
+                                    String chunkname = data[0];
+                                    if (!servers.containsKey(server)) {
+                                        servers.put(server, new EdgeHandler(server));
+                                    }
+                                    servers.get(server).deleteChunk(chunkname);
+                                }
+
+                                for (String server : servers.keySet()) {
+                                    servers.get(server).disconnect();
+                                }
+
+                                // Borrar de la DB
+
+                                out.println("DONE");
+                            } else {
+                                out.println("FILE_NOT_FOUND");
+                            }
+                            this.dbhandler.deleteFile(file);
                             log.writeLog("response", "servidor envía respuesta a " + ip);
 
                         } else {

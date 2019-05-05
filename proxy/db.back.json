@@ -1,0 +1,8 @@
+{
+  "servers": {
+    "sv01": "127.0.0.1:59910"
+  },
+  "files": {
+    "bn.tif": ["bn_0.part|sv01", "bn_1.part|sv01", "bn_2.part|sv01"]
+  }
+}

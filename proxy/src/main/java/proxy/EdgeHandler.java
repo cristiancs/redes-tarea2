@@ -54,7 +54,6 @@ public class EdgeHandler {
 
     public Boolean fileExists(String file) {
 
-        this.outToServer.println("ls");
         String inText;
         Boolean flag = false;
         inText = "";
@@ -62,7 +61,7 @@ public class EdgeHandler {
         if (this.status == "SERVER_DOWN") {
             return false;
         }
-
+        this.outToServer.println("ls");
         while (!inText.equals("END")) {
             inText = inFromServer.nextLine();
 
@@ -75,5 +74,19 @@ public class EdgeHandler {
         }
         return flag;
 
+    }
+
+    public Boolean deleteChunk(String file) {
+
+        String inText;
+        Boolean flag = true;
+        inText = "";
+
+        if (this.status == "SERVER_DOWN") {
+            return false;
+        }
+        this.outToServer.println("delete " + file);
+        inText = inFromServer.nextLine();
+        return flag;
     }
 }
