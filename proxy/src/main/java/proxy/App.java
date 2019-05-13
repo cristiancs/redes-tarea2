@@ -6,9 +6,12 @@ import java.util.Scanner;
 import java.io.*;
 import java.util.Base64;
 import java.util.HashMap;
+import java.util.Random;
 import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.Arrays;
 
 public class App {
 
@@ -47,7 +50,12 @@ public class App {
             return new String(encoded);
         }
 
-        private byte[] DecodeBase64ToString(String Text) {
+        private String encodeBytesToString(byte[] data) {
+            byte[] encoded = Base64.getEncoder().encode(data);
+            return new String(encoded);
+        }
+
+        private byte[] DecodeBase64ToByte(String Text) {
             byte[] decoded = Base64.getDecoder().decode(Text);
             return decoded;
         }
@@ -99,10 +107,60 @@ public class App {
 
                     // Manejar los datos recibidos despues del put
                     if (waitForFile) {
+                        Boolean saved = false;
+                        if (!this.dbhandler.fileExist(fileName)) {
 
-                        out.println("OK");
+                            this.dbhandler.saveFile(fileName);
+                            HashMap<String, EdgeHandler> servers = new HashMap<String, EdgeHandler>();
+
+                            ArrayList<String> servidores_names = this.dbhandler.getServers();
+
+                            byte[] archivo = DecodeBase64ToByte(mensaje);
+
+                            Integer largo = archivo.length;
+                            Integer inicioBloque = 0;
+                            Integer chunkNumber = 0;
+
+                            String[] fileParts = fileName.split("\\.");
+
+                            while (inicioBloque < largo) {
+                                Integer finRango = Math.min(inicioBloque + 64000, largo);
+                                String chunkName = fileParts[0] + "_" + chunkNumber.toString() + ".part";
+
+                                String server = servidores_names
+                                        .get(ThreadLocalRandom.current().nextInt(0, servidores_names.size()));
+
+                                System.out.println(chunkName + ":" + largo + " " + inicioBloque + " " + finRango);
+                                if (!servers.containsKey(server)) {
+                                    servers.put(server, new EdgeHandler(server));
+                                }
+
+                                byte[] toSend = Arrays.copyOfRange(archivo, inicioBloque, finRango);
+
+                                saved = servers.get(server).putChunk(encodeBytesToString(toSend), chunkName);
+                                if (!saved) {
+                                    break;
+
+                                }
+                                this.dbhandler.SaveChunk(fileName, chunkName, server);
+                                inicioBloque += 64000;
+                                chunkNumber += 1;
+                            }
+
+                            for (String server : servers.keySet()) {
+                                servers.get(server).disconnect();
+                            }
+                        }
+                        if (!saved) {
+                            out.println("KO");
+                            this.dbhandler.deleteFile(fileName);
+                        } else {
+                            out.println("OK");
+                        }
+
                         log.writeLog("command", "servidor envía respuesta a " + ip);
                         waitForFile = false;
+
                     } else if (!mensaje.equals("HELLO") && mensajes == 0) {
                         System.out.println("mensajes:" + mensajes);
                         log.writeLog("error", "conexión rechazada por" + ip);
@@ -217,7 +275,8 @@ public class App {
                 }
                 in.close();
             } catch (Exception e) {
-                System.out.println("Error:" + socket);
+                System.out.println("Error:" + e);
+                System.out.println(socket);
             } finally {
                 try {
 

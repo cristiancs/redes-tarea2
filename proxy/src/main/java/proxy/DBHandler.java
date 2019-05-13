@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 public class DBHandler {
 
-    public void getServers() {
+    public ArrayList<String> getServers() {
         try {
             String content = new String(Files.readAllBytes(Paths.get("db.json")));
             // Convert JSON string to JSONObject
@@ -20,14 +20,17 @@ public class DBHandler {
 
             JSONObject server_array = (JSONObject) data.get("servers");
 
+            ArrayList<String> salida = new ArrayList<String>();
             server_array.keySet().forEach(keyStr -> {
-                Object keyvalue = server_array.get(keyStr);
-                System.out.println("key: " + keyStr + "value: " + keyvalue);
+                salida.add(keyStr);
 
             });
+            return salida;
 
         } catch (Exception e) {
+
             System.out.println(e);
+            return new ArrayList<String>();
         }
     }
 
@@ -105,6 +108,24 @@ public class DBHandler {
         }
     }
 
+    public Boolean fileExist(String name) {
+        try {
+            String content = new String(Files.readAllBytes(Paths.get("db.json")));
+            // Convert JSON string to JSONObject
+            JSONObject data = new JSONObject(content);
+
+            try {
+                JSONObject files_object = (JSONObject) data.get("files");
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
+
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     public Boolean deleteFile(String name) {
         try {
             String content = new String(Files.readAllBytes(Paths.get("db.json")));
@@ -126,4 +147,48 @@ public class DBHandler {
         }
     }
 
+    public Boolean saveFile(String fileName) {
+        try {
+            String content = new String(Files.readAllBytes(Paths.get("db.json")));
+            // Convert JSON string to JSONObject
+
+            JSONObject data = new JSONObject(content);
+
+            JSONObject files_object = (JSONObject) data.get("files");
+
+            files_object.put(fileName, new JSONArray());
+
+            FileWriter file = new FileWriter("db.json");
+            file.write(data.toString());
+            file.close();
+            return true;
+
+        } catch (Exception e) {
+            System.out.println(e);
+            return false;
+        }
+    }
+
+    public Boolean SaveChunk(String fileName, String chunk, String server) {
+        try {
+            String content = new String(Files.readAllBytes(Paths.get("db.json")));
+            // Convert JSON string to JSONObject
+
+            JSONObject data = new JSONObject(content);
+
+            JSONObject files_object = (JSONObject) data.get("files");
+
+            JSONArray partes_array = files_object.getJSONArray(fileName);
+            partes_array.put(chunk + "|" + server);
+
+            FileWriter file = new FileWriter("db.json");
+            file.write(data.toString());
+            file.close();
+            return true;
+
+        } catch (Exception e) {
+            System.out.println(e);
+            return false;
+        }
+    }
 }

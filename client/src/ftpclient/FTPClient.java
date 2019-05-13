@@ -22,14 +22,14 @@ class FTPClient {
 
     public static void main(String argv[]) throws Exception {
         FTPClient programm = new FTPClient();
-        programm.start();
+        programm.start(argv);
 
     }
 
-    public void start() {
+    public void start(String[] args) {
 
         try {
-            Socket clientSocket = new Socket("127.0.0.1", 59800);
+            Socket clientSocket = new Socket(args[0], Integer.parseInt(args[1]));
             PrintWriter outToServer = new PrintWriter(clientSocket.getOutputStream(), true);
             Scanner inFromServer = new Scanner(clientSocket.getInputStream());
 

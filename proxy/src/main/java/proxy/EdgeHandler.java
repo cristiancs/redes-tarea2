@@ -32,7 +32,7 @@ public class EdgeHandler {
             this.status = "SERVER_UP";
 
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("Edge Exception: " + e);
             this.status = "SERVER_DOWN";
         }
     }
@@ -78,6 +78,18 @@ public class EdgeHandler {
             return false;
         }
         this.outToServer.println("delete " + file);
+        inFromServer.nextLine();
+        return flag;
+    }
+
+    public Boolean putChunk(String data, String name) {
+
+        Boolean flag = true;
+        if (this.status == "SERVER_DOWN") {
+            return false;
+        }
+        outToServer.println("put " + name);
+        outToServer.println(data);
         inFromServer.nextLine();
         return flag;
     }
