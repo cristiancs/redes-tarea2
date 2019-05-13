@@ -1,1 +1,1 @@
-{"servers":{"sv01":"127.0.0.1:59910"},"files":{"bn2.tif":["bn_0.part|sv01","bn_1.part|sv01","bn_2.part|sv01"]}}
+{"servers":{"sv01":"127.0.0.1:59910"},"files":{"a.jpg":["a_jpg_0.part|sv01","a_jpg_1.part|sv01","a_jpg_2.part|sv01","a_jpg_3.part|sv01"],"c.jpg":["c_jpg_0.part|sv01","c_jpg_1.part|sv01","c_jpg_2.part|sv01","c_jpg_3.part|sv01"]},"fileSizes":{"a.jpg":206993,"c.jpg":206993}}

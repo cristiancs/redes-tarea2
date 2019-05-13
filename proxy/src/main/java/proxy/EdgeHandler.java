@@ -29,6 +29,7 @@ public class EdgeHandler {
             this.outToServer = new PrintWriter(clientSocket.getOutputStream(), true);
             this.inFromServer = new Scanner(clientSocket.getInputStream());
             this.outToServer.println("HELLO");
+            this.inFromServer.nextLine();
             this.status = "SERVER_UP";
 
         } catch (Exception e) {
@@ -58,7 +59,7 @@ public class EdgeHandler {
         }
         this.outToServer.println("ls");
         while (!inText.equals("END")) {
-            inText = inFromServer.nextLine();
+            inText = this.inFromServer.nextLine();
 
             if (!inText.equals("END")) {
                 if (inText.equals(file)) {
@@ -78,7 +79,7 @@ public class EdgeHandler {
             return false;
         }
         this.outToServer.println("delete " + file);
-        inFromServer.nextLine();
+        this.inFromServer.nextLine();
         return flag;
     }
 
@@ -90,7 +91,22 @@ public class EdgeHandler {
         }
         outToServer.println("put " + name);
         outToServer.println(data);
-        inFromServer.nextLine();
+        this.inFromServer.nextLine();
         return flag;
+    }
+
+    public String getChunk(String name) {
+        if (this.status == "SERVER_DOWN") {
+            return "KO";
+        }
+        outToServer.println("get " + name);
+        String data = this.inFromServer.nextLine();
+        if (data.equals("NOFILE")) {
+            return "KO";
+        } else {
+
+            this.inFromServer.nextLine();
+            return data;
+        }
     }
 }

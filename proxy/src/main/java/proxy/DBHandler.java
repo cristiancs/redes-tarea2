@@ -113,9 +113,9 @@ public class DBHandler {
             String content = new String(Files.readAllBytes(Paths.get("db.json")));
             // Convert JSON string to JSONObject
             JSONObject data = new JSONObject(content);
-
+            JSONObject files_object = (JSONObject) data.get("files");
             try {
-                JSONObject files_object = (JSONObject) data.get("files");
+                files_object.get(name);
                 return true;
             } catch (Exception e) {
                 return false;
@@ -134,7 +134,9 @@ public class DBHandler {
             JSONObject data = new JSONObject(content);
 
             JSONObject files_object = (JSONObject) data.get("files");
+            JSONObject fileSizes_object = (JSONObject) data.get("fileSizes");
             files_object.remove(name);
+            fileSizes_object.remove(name);
 
             FileWriter file = new FileWriter("db.json");
             file.write(data.toString());
@@ -147,7 +149,7 @@ public class DBHandler {
         }
     }
 
-    public Boolean saveFile(String fileName) {
+    public Boolean saveFile(String fileName, Integer largo) {
         try {
             String content = new String(Files.readAllBytes(Paths.get("db.json")));
             // Convert JSON string to JSONObject
@@ -155,9 +157,10 @@ public class DBHandler {
             JSONObject data = new JSONObject(content);
 
             JSONObject files_object = (JSONObject) data.get("files");
+            JSONObject fileSizes_object = (JSONObject) data.get("fileSizes");
 
             files_object.put(fileName, new JSONArray());
-
+            fileSizes_object.put(fileName, largo);
             FileWriter file = new FileWriter("db.json");
             file.write(data.toString());
             file.close();
@@ -166,6 +169,21 @@ public class DBHandler {
         } catch (Exception e) {
             System.out.println(e);
             return false;
+        }
+    }
+
+    public Integer getfileSize(String name) {
+        try {
+            String content = new String(Files.readAllBytes(Paths.get("db.json")));
+            // Convert JSON string to JSONObject
+            JSONObject data = new JSONObject(content);
+
+            JSONObject fileSizes_object = (JSONObject) data.get("fileSizes");
+
+            return (Integer) fileSizes_object.get(name);
+        } catch (Exception e) {
+
+            return 0;
         }
     }
 

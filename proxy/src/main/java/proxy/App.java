@@ -6,9 +6,6 @@ import java.util.Scanner;
 import java.io.*;
 import java.util.Base64;
 import java.util.HashMap;
-import java.util.Random;
-import java.nio.file.Paths;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.Arrays;
@@ -45,17 +42,17 @@ public class App {
             this.dbhandler = new DBHandler();
         }
 
-        private String encodeFileToBase64Binary(String fileName) throws IOException {
-            byte[] encoded = Base64.getEncoder().encode(Files.readAllBytes(Paths.get(fileName)));
-            return new String(encoded);
-        }
-
         private String encodeBytesToString(byte[] data) {
             byte[] encoded = Base64.getEncoder().encode(data);
             return new String(encoded);
         }
 
         private byte[] DecodeBase64ToByte(String Text) {
+            byte[] decoded = Base64.getDecoder().decode(Text);
+            return decoded;
+        }
+
+        private byte[] DecodeBase64ToString(String Text) {
             byte[] decoded = Base64.getDecoder().decode(Text);
             return decoded;
         }
@@ -68,7 +65,9 @@ public class App {
             ArrayList<String> chunks = this.dbhandler.getChunks(nombre);
 
             flag = true;
-
+            if (chunks.size() == 0) {
+                flag = false;
+            }
             for (String chunk : chunks) {
                 String[] data = chunk.split("\\|");
                 String server = data[1];
@@ -107,17 +106,17 @@ public class App {
 
                     // Manejar los datos recibidos despues del put
                     if (waitForFile) {
-                        Boolean saved = false;
-                        if (!this.dbhandler.fileExist(fileName)) {
 
-                            this.dbhandler.saveFile(fileName);
+                        if (!this.dbhandler.fileExist(fileName)) {
+                            Boolean saved = false;
+                            byte[] archivo = DecodeBase64ToByte(mensaje);
+                            Integer largo = archivo.length;
+
+                            this.dbhandler.saveFile(fileName, largo);
                             HashMap<String, EdgeHandler> servers = new HashMap<String, EdgeHandler>();
 
                             ArrayList<String> servidores_names = this.dbhandler.getServers();
 
-                            byte[] archivo = DecodeBase64ToByte(mensaje);
-
-                            Integer largo = archivo.length;
                             Integer inicioBloque = 0;
                             Integer chunkNumber = 0;
 
@@ -125,7 +124,8 @@ public class App {
 
                             while (inicioBloque < largo) {
                                 Integer finRango = Math.min(inicioBloque + 64000, largo);
-                                String chunkName = fileParts[0] + "_" + chunkNumber.toString() + ".part";
+                                String chunkName = fileParts[0] + "_" + fileParts[1] + "_" + chunkNumber.toString()
+                                        + ".part";
 
                                 String server = servidores_names
                                         .get(ThreadLocalRandom.current().nextInt(0, servidores_names.size()));
@@ -150,12 +150,14 @@ public class App {
                             for (String server : servers.keySet()) {
                                 servers.get(server).disconnect();
                             }
-                        }
-                        if (!saved) {
-                            out.println("KO");
-                            this.dbhandler.deleteFile(fileName);
+                            if (!saved) {
+                                out.println("KO");
+                                this.dbhandler.deleteFile(fileName);
+                            } else {
+                                out.println("OK");
+                            }
                         } else {
-                            out.println("OK");
+                            out.println("KO (File already exists)");
                         }
 
                         log.writeLog("command", "servidor envía respuesta a " + ip);
@@ -213,14 +215,59 @@ public class App {
                                 out.println(file);
                             }
 
-                            // archivo
-
-                            //
-
                             out.println("END");
                             log.writeLog("response", "servidor envía respuesta a " + ip);
                         } else if (mensaje.startsWith("get")) {
+                            String nombre = mensaje.split(" ")[1];
 
+                            if (this.FileAvailable(nombre)) {
+
+                                HashMap<String, EdgeHandler> servers = new HashMap<String, EdgeHandler>();
+
+                                Boolean flag;
+
+                                ArrayList<String> chunks = this.dbhandler.getChunks(nombre);
+                                Integer fileSize = this.dbhandler.getfileSize(nombre);
+
+                                flag = true;
+                                System.out.println("Filesize: " + fileSize);
+                                byte[] archivo = new byte[fileSize];
+
+                                Integer inicioBloque = 0;
+                                for (String chunk : chunks) {
+                                    String[] data = chunk.split("\\|");
+                                    String server = data[1];
+                                    String chunkname = data[0];
+                                    if (!servers.containsKey(server)) {
+                                        servers.put(server, new EdgeHandler(server));
+                                    }
+                                    String chunkData = servers.get(server).getChunk(chunkname);
+                                    if (chunkData.equals("KO")) {
+                                        flag = false;
+                                        break;
+                                    }
+
+                                    byte[] chunkBytes = DecodeBase64ToString(chunkData);
+
+                                    System.arraycopy(chunkBytes, 0, archivo, inicioBloque, chunkBytes.length);
+
+                                    inicioBloque += 64000;
+
+                                }
+
+                                for (String server : servers.keySet()) {
+                                    servers.get(server).disconnect();
+                                }
+
+                                if (!flag) {
+                                    out.println("NOFILE");
+                                } else {
+                                    out.println(encodeBytesToString(archivo));
+                                    out.println("END");
+                                }
+                            } else {
+                                out.println("NOFILE");
+                            }
                             log.writeLog("response", "servidor envía respuesta a " + ip);
 
                             // Primera linea del put, lo preparamos para escribir
