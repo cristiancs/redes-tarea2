@@ -12,8 +12,8 @@ import java.util.Arrays;
 
 public class App {
 
-    public void start() throws Exception {
-        try (var listener = new ServerSocket(59800)) {
+    public void start(String[] args) throws Exception {
+        try (var listener = new ServerSocket(Integer.parseInt(args[0]))) {
             System.out.println("Server Started ...");
             LogHandler log = new LogHandler();
             log.StartLog();
@@ -29,7 +29,7 @@ public class App {
     public static void main(String[] args) throws Exception {
 
         App programm = new App();
-        programm.start();
+        programm.start(args);
 
     }
 

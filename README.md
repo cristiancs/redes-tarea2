@@ -12,11 +12,7 @@
 
 Desde la carpeta server
 
-    java -jar build/jar/ftpserver.jar [puerto]
-
-### Handshake
-
-El servidor enviara un mensaje con "HELLO" cuando un cliente se conecta, el servidor espera de vuelta un "HELLO"
+    java -jar build/jar/ftpserver.jar puerto
 
 # Compilación del Cliente
 
@@ -27,9 +23,7 @@ El servidor enviara un mensaje con "HELLO" cuando un cliente se conecta, el serv
 
 Desde la carpeta client
 
-    java -jar build/jar/ftpclient.jar
-
-se pueden utilizar todos los comandos que utiliza el servidor, para salir enviar una linea vacia
+    java -jar build/jar/ftpclient.jar servidor puerto
 
 # Compilacion del Proxy
 
@@ -37,7 +31,13 @@ se pueden utilizar todos los comandos que utiliza el servidor, para salir enviar
 
 # Ejecucion del Proxy
 
-    java -cp target/proxy-1.0-SNAPSHOT-jar-with-dependencies.jar  proxy.App
+    java -cp target/proxy-1.0-SNAPSHOT-jar-with-dependencies.jar  proxy.App puerto
+
+se pueden utilizar todos los comandos que utiliza el servidor, para salir enviar una linea vacía
+
+### Handshake
+
+El servidor enviara un mensaje con "HELLO" cuando un cliente se conecta, el servidor espera de vuelta un "HELLO"
 
 # Comandos
 

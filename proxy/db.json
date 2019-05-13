@@ -1,1 +1,18 @@
-{"servers":{"sv01":"127.0.0.1:59910","sv02":"127.0.0.1:59920"},"files":{"a.jpg":["a_jpg_0.part|sv01","a_jpg_1.part|sv02","a_jpg_2.part|sv02","a_jpg_3.part|sv02"],"c.jpg":["c_jpg_0.part|sv02","c_jpg_1.part|sv01","c_jpg_2.part|sv01","c_jpg_3.part|sv01"]},"fileSizes":{"a.jpg":206993,"c.jpg":206993}}
+{
+  "servers": { "sv01": "127.0.0.1:59910", "sv02": "127.0.0.1:59920" },
+  "files": {
+    "a.jpg": [
+      "a_jpg_0.part|sv01",
+      "a_jpg_1.part|sv02",
+      "a_jpg_2.part|sv02",
+      "a_jpg_3.part|sv02"
+    ],
+    "c.jpg": [
+      "c_jpg_0.part|sv02",
+      "c_jpg_1.part|sv01",
+      "c_jpg_2.part|sv01",
+      "c_jpg_3.part|sv01"
+    ]
+  },
+  "fileSizes": { "a.jpg": 206993, "c.jpg": 206993 }
+}
