@@ -1,7 +1,6 @@
 edge/build/*
 client/build/*
 edge/log.txt
-client/files/*
 server/files/*
 edge/files/*
 edge/log.txt

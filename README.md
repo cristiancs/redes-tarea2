@@ -5,7 +5,11 @@
 
 # Compilación del Edge
 
-    cd server
+Se requiere ant para correr el edge, para esto en centos se puede instalar con
+
+    yum install ant
+
+    cd edge
     ant
 
 # Ejecución del Edge
@@ -27,6 +31,13 @@ Desde la carpeta client
 
 # Compilacion del Proxy
 
+El proxy requiere maven, para esto se puede instalar ejecutando
+
+    sudo yum install maven
+
+Luego, para ejecutarlo
+
+    cd proxy
     mvn clean package assembly:assembly
 
 # Ejecucion del Proxy
