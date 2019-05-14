@@ -322,7 +322,7 @@ public class App {
                 }
                 in.close();
             } catch (Exception e) {
-                System.out.println("Error:" + e);
+                System.out.println("Error: " + e);
                 System.out.println(socket);
             } finally {
                 try {

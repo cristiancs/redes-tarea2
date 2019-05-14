@@ -127,7 +127,7 @@ public class FTPMain {
                     // out.println(in.nextLine().toUpperCase());
                 }
             } catch (Exception e) {
-                System.out.println("Error:" + socket);
+                System.out.println("Error:" + e);
             } finally {
                 try {
                     socket.close();
